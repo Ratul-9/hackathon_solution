@@ -83,7 +83,7 @@ python -m uvicorn api.main:app --reload
 
 Server runs at:
 
-http://127.0.0.1:8000
+http://0.0.0.0:5477
 🐳 Docker Deployment
 
 The application is fully containerized.
