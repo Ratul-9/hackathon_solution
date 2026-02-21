@@ -1,2 +1,43 @@
-myenv
+# --- OS Metadata ---
+.DS_Store
+Thumbs.db
+.directory
+
+# --- Environment & Secrets (CRITICAL) ---
+.env
+*.env
+.venv/
+env/
+venv/
+ENV/
+auth.json
+secrets.py
+
+# --- C++ / Compilers ---
+*.o
+*.obj
+*.exe
+*.out
+*.app
 build/
+bin/
+Makefile.Corrupt  # If you use auto-generated makefiles
+
+# --- Python / Data Science ---
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints
+*.log
+data/*.csv        # Ignore large datasets (keep the folder, hide the files)
+!data/.gitkeep    # Keep the folder structure
+
+# --- Docker ---
+.dockerignore     # Paradoxically, sometimes tracked, but often ignored if specific to env
+docker-compose.override.yml
+
+# --- IDEs / Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
