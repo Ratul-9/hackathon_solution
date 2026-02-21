@@ -5,6 +5,8 @@ import subprocess
 import json
 import uuid
 import os
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional, Dict, Any
 from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel, Field
@@ -73,6 +75,12 @@ class ChallengeRequest(BaseModel):
 # ---------------------------------------------------------
 
 app = FastAPI(title="BlackRock Auto-Save Engine")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Allows requests from any frontend
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 tracemalloc.start()
 start_time = time.time()
 engine_calls = 0

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackRock Auto-Save Engine | Ratul Mukherjee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brBlack: '#000000',
+                        brGray: '#151412',
+                        brLightGray: '#FAFAFA',
+                        brBlue: '#005eb8',
+                        brRed: '#E1271B'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for JSON textareas */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #151412; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="bg-brBlack text-brLightGray font-sans antialiased min-h-screen flex flex-col">
+
+    <nav class="border-b border-neutral-800 bg-brBlack px-6 py-4 flex items-center justify-between sticky top-0 z-10">
+        <div class="flex items-center space-x-3">
+            <svg class="w-8 h-8 text-brLightGray" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M2 22h20V2H2v20zm2-18h16v16H4V4z"/><rect x="6" y="10" width="12" height="6"/>
+            </svg>
+            <span class="text-xl font-bold tracking-tight">BlackRock <span class="font-light text-neutral-400">Auto-Save Engine</span></span>
+        </div>
+        <div class="text-sm text-neutral-500 hidden sm:block">Participant: Ratul Mukherjee</div>
+    </nav>
+
+    <main class="flex-grow p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <div class="lg:col-span-7 space-y-6">
+            <div class="bg-brGray border border-neutral-800 rounded-lg p-5 shadow-2xl">
+                <h2 class="text-lg font-semibold border-b border-neutral-800 pb-2 mb-4">Simulation Parameters</h2>
+                
+                <div class="mb-5">
+                    <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Backend API URL</label>
+                    <input id="apiUrl" type="text" value="http://localhost:5477/blackrock/challenge/v1/returns:nps" 
+                        class="w-full bg-black border border-neutral-700 rounded p-2 text-sm focus:outline-none focus:border-brBlue transition-colors">
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 mb-5">
+                    <div>
+                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Age</label>
+                        <input id="age" type="number" value="20" class="w-full bg-black border border-neutral-700 rounded p-2 text-sm focus:outline-none focus:border-brBlue">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Wage (₹)</label>
+                        <input id="wage" type="number" value="50000" class="w-full bg-black border border-neutral-700 rounded p-2 text-sm focus:outline-none focus:border-brBlue">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Inflation (%)</label>
+                        <input id="inflation" type="number" value="5.5" step="0.1" class="w-full bg-black border border-neutral-700 rounded p-2 text-sm focus:outline-none focus:border-brBlue">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mb-5">
+                    <div>
+                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Q-Periods (JSON Array)</label>
+                        <textarea id="q_periods" rows="4" class="w-full bg-black border border-neutral-700 rounded p-2 text-xs font-mono focus:outline-none focus:border-brBlue whitespace-pre">[
+  {
+    "start": "2023-01-01 00:00:00",
+    "end": "2023-12-31 23:59:59",
+    "fixed": 100
+  }
+]</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">P-Periods (JSON Array)</label>
+                        <textarea id="p_periods" rows="4" class="w-full bg-black border border-neutral-700 rounded p-2 text-xs font-mono focus:outline-none focus:border-brBlue whitespace-pre">[]</textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Transactions (JSON Array)</label>
+                    <textarea id="transactions" rows="6" class="w-full bg-black border border-neutral-700 rounded p-2 text-xs font-mono focus:outline-none focus:border-brBlue whitespace-pre">[
+  { "date": "2023-02-28 15:49:20", "amount": 375 },
+  { "date": "2023-03-05 10:15:00", "amount": 1020 },
+  { "date": "2023-07-21 18:30:00", "amount": 499 }
+]</textarea>
+                </div>
+                
+                </div>
+        </div>
+
+        <div class="lg:col-span-5 flex flex-col space-y-6">
+            
+            <div class="bg-brGray border border-neutral-800 rounded-lg p-5 shadow-2xl flex flex-col justify-center items-center text-center">
+                <p class="text-sm text-neutral-400 mb-4">Execute the C++ Sweep-line algorithm via the FastAPI orchestrator.</p>
+                <button id="runBtn" onclick="executeEngine()" class="w-full bg-brBlue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded transition-all duration-200 shadow-[0_0_15px_rgba(0,94,184,0.4)]">
+                    Execute Engine (NPS)
+                </button>
+            </div>
+
+            <div class="bg-brGray border border-neutral-800 rounded-lg p-5 shadow-2xl flex-grow flex flex-col">
+                <h2 class="text-lg font-semibold border-b border-neutral-800 pb-2 mb-4 flex justify-between items-center">
+                    <span>Forecasted Return</span>
+                    <span id="statusIndicator" class="h-3 w-3 rounded-full bg-neutral-600"></span>
+                </h2>
+                
+                <div class="text-center py-6">
+                    <p class="text-xs text-neutral-500 uppercase tracking-widest mb-2">Final Portfolio Value</p>
+                    <h1 id="finalValue" class="text-5xl font-bold text-white tracking-tight">₹ 0.00</h1>
+                </div>
+
+                <div class="mt-4 flex-grow flex flex-col">
+                    <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Engine Output (JSON)</label>
+                    <div class="bg-black border border-neutral-700 rounded p-3 flex-grow relative overflow-hidden">
+                        <pre id="jsonOutput" class="text-[11px] text-green-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-tight">Awaiting execution...</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function executeEngine() {
+            const btn = document.getElementById('runBtn');
+            const output = document.getElementById('jsonOutput');
+            const finalValueDisplay = document.getElementById('finalValue');
+            const statusIndicator = document.getElementById('statusIndicator');
+            
+            // UI Loading State
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+            statusIndicator.className = "h-3 w-3 rounded-full bg-yellow-500 animate-pulse";
+            output.innerText = "Connecting to backend...";
+            output.className = "text-[11px] text-yellow-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-tight";
+
+            try {
+                // Parse Inputs
+                const payload = {
+                    age: parseInt(document.getElementById('age').value),
+                    wage: parseFloat(document.getElementById('wage').value),
+                    inflation: parseFloat(document.getElementById('inflation').value),
+                    q: JSON.parse(document.getElementById('q_periods').value),
+                    p: JSON.parse(document.getElementById('p_periods').value),
+                    k: [], // Left empty for simplicity in this demo
+                    transactions: JSON.parse(document.getElementById('transactions').value)
+                };
+
+                const apiUrl = document.getElementById('apiUrl').value;
+
+                // Call API
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Success State
+                    statusIndicator.className = "h-3 w-3 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]";
+                    finalValueDisplay.innerText = `₹ ${data.finalValue ? data.finalValue.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '0.00'}`;
+                    output.className = "text-[11px] text-green-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-tight";
+                    output.innerText = JSON.stringify(data, null, 2);
+                } else {
+                    // Handled Backend Error
+                    throw new Error(JSON.stringify(data, null, 2));
+                }
+
+            } catch (error) {
+                // Failure State
+                statusIndicator.className = "h-3 w-3 rounded-full bg-brRed shadow-[0_0_8px_#E1271B]";
+                output.className = "text-[11px] text-brRed font-mono h-full overflow-y-auto whitespace-pre-wrap leading-tight";
+                
+                if(error instanceof SyntaxError) {
+                    output.innerText = "Error: Invalid JSON format in one of your text areas. Please check for missing quotes or commas.";
+                } else if (error.message === "Failed to fetch") {
+                    output.innerText = "Network Error: Could not connect to the engine.\n\nEnsure your Docker container is running and mapped to port 5477:\n`docker run -p 5477:5477 blk-hacking-ind-ratul-mukherjee`\n\nAlso, ensure your FastAPI backend has CORS enabled if hosting this file separately.";
+                } else {
+                    output.innerText = `API Error:\n${error.message}`;
+                }
+            } finally {
+                btn.innerText = "Execute Engine (NPS)";
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+            }
+        }
+    </script>
+</body>
+</html>
