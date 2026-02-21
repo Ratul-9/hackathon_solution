@@ -1,148 +1,203 @@
-# BlackRock Auto-Save & Investment Engine
+BlackRock Auto-Save & Investment Engine
 
-A high-performance, hybrid Python-C++ system designed to process large-scale financial transactions (up to $10^6$ constraints) using an optimized **Sweep-line Algorithm**. This engine automates rounding-based savings, validates them against complex financial and temporal rules, and calculates real-world returns for NPS and Index Fund portfolios.
+A high-performance, hybrid Python–C++ financial processing system designed to handle large-scale transactions (up to 10^6 constraints) using an optimized Sweep-Line Algorithm.
 
-## 🚀 System Architecture
+This engine automates rounding-based savings, validates them against complex financial and temporal rules, and computes real-world investment projections for NPS and Index Fund portfolios.
 
-The project utilizes a **Polyglot Architecture** to balance developer productivity with computational performance:
-* **FastAPI Orchestrator (Python):** Handles the web interface, Pydantic data validation, and multi-stage financial filtering.
-* **Core Logic Engine (C++):** A high-performance backend that executes the sweep-line algorithm for $O((N+Q+P) \log (N+Q+P))$ time complexity.
+🚀 System Architecture
 
+This project follows a Polyglot Architecture to balance developer productivity with computational performance.
 
+🐍 FastAPI Orchestrator (Python)
 
----
+REST API layer
 
-## 📂 Project Structure
+Pydantic request/response validation
 
-```text
+Multi-stage financial filtering
+
+Pipeline orchestration
+
+Triggers the C++ engine
+
+⚡ Core Logic Engine (C++)
+
+High-performance Sweep-line implementation
+
+Time complexity:
+
+O((N + Q + P) log (N + Q + P))
+
+Efficient handling of up to 1,000,000 constraints
+
+📂 Project Structure
 root/
 ├── api/
-│   └── main.py          # FastAPI Orchestrator & Multi-stage APIs
+│   └── main.py          # FastAPI Orchestrator & APIs
 ├── engine/
 │   └── main.cpp         # C++ Sweep-line Core Logic
-├── build/               # Generated upon C++ compilation (git ignored)
+├── build/               # C++ build output (git ignored)
 ├── venv/                # Python virtual environment (git ignored)
-├── CMakeLists.txt       # C++ Build Configuration
-├── compose.yaml         # Docker Compose multi-service configuration
-├── Dockerfile           # Docker image definition for backend
-├── requirements.txt     # Python dependencies list
-└── README.md            # Project documentation
+├── CMakeLists.txt       # C++ Build config
+├── compose.yaml         # Docker Compose config
+├── Dockerfile           # Docker image definition
+├── requirements.txt     # Python dependencies
+└── README.md
+⚙️ Local Setup & Installation
+1️⃣ Build the C++ Engine
 
----
+Make sure you have:
 
-## ⚙️ Local Setup & Installation
------------------------------
+C++ Compiler (MSVC / MinGW / GCC)
 
-Follow these steps to set up the development environment on your local machine.
+CMake installed
 
-### 1\. Build the C++ Engine
+mkdir build
+cd build
 
-Ensure you have a C++ compiler (MSVC, MinGW, or GCC) and CMake installed.
+cmake ..
+cmake --build . --config Release
 
-Bash
+cd ..
+2️⃣ Set Up Python Virtual Environment
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   # Create build directory and navigate into it  mkdir build  cd build  # Generate build files and compile the engine  # This will also fetch nlohmann/json automatically via FetchContent  cmake ..  cmake --build . --config Release  # Return to root directory  cd ..   `
+Requires Python 3.11+
 
-### 2\. Set Up Python Virtual Environment
+python -m venv venv
 
-Requires Python 3.11 or higher.
+Activate virtual environment:
 
-Bash
+Windows
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   # Create the virtual environment  python -m venv venv  # Activate the virtual environment  # On Windows:  .\venv\Scripts\activate  # On macOS/Linux:  source venv/bin/activate  # Install the required dependencies  pip install -r requirements.txt   `
+.\venv\Scripts\activate
 
-### 3\. Run the Development Server
+macOS/Linux
 
-Launch the FastAPI server using Uvicorn.
+source venv/bin/activate
 
-Bash
+Install dependencies:
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python -m uvicorn api.main:app --reload   `
+pip install -r requirements.txt
+3️⃣ Run Development Server
+python -m uvicorn api.main:app --reload
 
-The server will be live at http://127.0.0.1:8000.
+Server runs at:
 
+http://0.0.0.0:5477
 🐳 Docker Deployment
---------------------
 
-The application is fully containerized to meet hackathon requirements.
+The application is fully containerized.
 
-### Build and Run
-
-Bash
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   # Build the image as per participant requirements  docker build -t ratul9/blk-hacking-ind-ratul-mukherjee .  # Run the container with the required port mapping  docker run -d -p 5477:5477 ratul9/blk-hacking-ind-ratul-mukherjee   `
-
-### Docker Compose
-
-To run using the provided compose.yaml:
-
-Bash
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   docker-compose up -d --build   `
-
+🔹 Build & Run
+docker build -t ratul9/blk-hacking-ind-ratul-mukherjee .
+docker run -d -p 5477:5477 ratul9/blk-hacking-ind-ratul-mukherjee
+🔹 Docker Compose
+docker-compose up -d --build
 📡 API Reference
-----------------
+1️⃣ Transaction Builder
 
-### i) Transaction Builder (/transactions:parse)
+POST /transactions:parse
 
-*   **Method:** POST
-    
-*   **Goal:** Rounds amount to nearest 100 ceiling and calculates remanent.
-    
-*   **Sample Body:**
-    
+Goal:
+Rounds transaction amount to nearest 100 (ceiling) and calculates remanent.
 
-JSON
+Sample Request
+[
+  { 
+    "date": "2023-02-28 15:49:20", 
+    "amount": 375 
+  }
+]
+2️⃣ Financial Validator
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   [    { "date": "2023-02-28 15:49:20", "amount": 375 }  ]   `
+POST /transactions:validator
 
-### ii) Financial Validator (/transactions:validator)
+Goal:
+Validates remanents against:
 
-*   **Method:** POST
-    
-*   **Goal:** Validates remanents against wage limits (10% cap or ₹2L max).
-    
-*   **Sample Body:**
-    
+10% wage cap
 
-JSON
+₹2,00,000 maximum limit
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   {    "wage": 50000,    "transactions": [      { "id": "txn_0", "date": "2023-02-28 15:49:20", "amount": 375, "ceiling": 400, "remanent": 25, "status": "valid" }    ]  }   `
+Sample Request
+{
+  "wage": 50000,
+  "transactions": [
+    {
+      "id": "txn_0",
+      "date": "2023-02-28 15:49:20",
+      "amount": 375,
+      "ceiling": 400,
+      "remanent": 25,
+      "status": "valid"
+    }
+  ]
+}
+3️⃣ Temporal Filter
 
-### iii) Temporal Filter (/transactions:filter)
+POST /transactions:filter
 
-*   **Method:** POST
-    
-*   **Goal:** Validates date formats and year constraints for $k$-periods.
-    
-*   **Sample Body:**
-    
+Goal:
 
-JSON
+Validates date formats
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   {    "wage": 50000,    "q_periods": [{ "start": "2023-07-01 00:00:00", "end": "2023-07-31 23:59:59", "fixed": 0 }],    "transactions": [...]  }   `
+Applies year constraints
 
-### iv) Composite Orchestrators (/returns:nps & /returns:index)
+Processes K-period fixed investments
 
-*   **Method:** POST
-    
-*   **Goal:** Executes full pipeline and triggers the C++ Sweep-line engine.
-    
-*   **Sample Body:**
-    
+Sample Request
+{
+  "wage": 50000,
+  "q_periods": [
+    {
+      "start": "2023-07-01 00:00:00",
+      "end": "2023-07-31 23:59:59",
+      "fixed": 0
+    }
+  ],
+  "transactions": []
+}
+4️⃣ Composite Orchestrators
+POST /returns:nps
+POST /returns:index
 
-JSON
+Goal:
+Executes full pipeline and triggers the C++ Sweep-line engine.
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   {    "age": 29,    "wage": 50000,    "inflation": 5.5,    "q": [], "p": [], "k": [],    "transactions": []  }   `
+Sample Request
+{
+  "age": 29,
+  "wage": 50000,
+  "inflation": 5.5,
+  "q": [],
+  "p": [],
+  "k": [],
+  "transactions": []
+}
+5️⃣ Performance Report
 
-### v) Performance Report (/performance-report)
+GET /performance-report
 
-*   **Method:** GET
-    
-*   **Output:** Returns JSON telemetry containing peakMB memory usage and totalEngineCalls.
-    
+Sample Response
+
+{
+  "peakMB": 128,
+  "totalEngineCalls": 42
+}
+📊 Performance Highlights
+
+Handles up to 1,000,000 events
+
+Optimized Sweep-Line processing
+
+Logarithmic scaling
+
+Low memory footprint
+
+Production-ready Docker deployment
 
 👤 Author
----------
 
-**Ratul Mukherjee** Student at **Institute of Engineering and Management (IEM), Kolkata** B.Tech in Computer Science and Business Systems
+Ratul Mukherjee
+B.Tech – Computer Science and Business Systems
+Institute of Engineering and Management (IEM), Kolkata
