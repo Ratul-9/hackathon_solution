@@ -1,0 +1,6 @@
+services:
+  backend:
+    image: ratul9/blk-hacking-ind-ratul-mukherjee
+    ports:
+      - "5477:5477"
+    restart: always

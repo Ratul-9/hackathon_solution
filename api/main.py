@@ -56,7 +56,6 @@ class TemporalValidationRequest(BaseModel):
     k_periods: List[Period]
     transactions: List[Transaction]
 
-# Composite Orchestrator Models (Matching Screenshot 10)
 class RawTransaction(BaseModel):
     date: str
     amount: float
@@ -77,7 +76,7 @@ class ChallengeRequest(BaseModel):
 app = FastAPI(title="BlackRock Auto-Save Engine")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Allows requests from any frontend
+    allow_origins=["*"], 
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -110,11 +109,9 @@ async def api_validate_financials(data: WageData):
     """Validates against 10% annual income or 2L max limit."""
     valid, invalid, seen_ids = [], [], set()
     total_invested = 0
-    # Annual investment limit is 10% of wage or 200,000
     max_investment = min(data.wage * 0.10, 200000.0)
 
     for txn in data.transactions:
-        # 1. Check for Duplicate IDs
         if txn.id in seen_ids:
             txn.status = "duplicate"
             invalid.append({
@@ -123,7 +120,6 @@ async def api_validate_financials(data: WageData):
             })
             continue
             
-        # 2. Check for Investment Limit Breach
         if total_invested + txn.remanent > max_investment:
             txn.status = "invalid_exceeds_limit"
             invalid.append({
@@ -131,7 +127,6 @@ async def api_validate_financials(data: WageData):
                 "reason": f"Adding {txn.remanent} would exceed your max investment limit of {max_investment}. Current total: {total_invested}."
             })
         
-        # 3. Mark as Valid
         else:
             txn.status = "valid"
             total_invested += txn.remanent
@@ -155,9 +150,7 @@ async def api_temporal_validate(data: TemporalValidationRequest):
     seen_ts = set()
     parsed_dates = []
 
-    # 1. Validate Transactions
     for txn in data.transactions:
-        # Skip transactions already marked invalid by previous APIs
         if txn.status != "valid":
             invalid_txns.append({
                 "transaction": txn,
@@ -166,10 +159,8 @@ async def api_temporal_validate(data: TemporalValidationRequest):
             continue
             
         try:
-            # Enforce strict format: YYYY-MM-DD HH:MM:SS
             dt = datetime.strptime(txn.date, "%Y-%m-%d %H:%M:%S")
             
-            # Check for duplicate timestamps (t_i != t_j)
             if txn.date in seen_ts:
                 txn.status = "invalid_duplicate_timestamp"
                 invalid_txns.append({
@@ -188,7 +179,6 @@ async def api_temporal_validate(data: TemporalValidationRequest):
                 "reason": f"Date '{txn.date}' does not match required format YYYY-MM-DD HH:MM:SS"
             })
 
-    # 2. Extract bounds and Validate Periods
     if parsed_dates:
         min_t, max_t = min(parsed_dates), max(parsed_dates)
         
@@ -198,21 +188,18 @@ async def api_temporal_validate(data: TemporalValidationRequest):
                     s_dt = datetime.strptime(p.start, "%Y-%m-%d %H:%M:%S")
                     e_dt = datetime.strptime(p.end, "%Y-%m-%d %H:%M:%S")
                     
-                    # Rule: Start must be before End
                     if s_dt > e_dt:
                         period_errors.append({
                             "period": f"{name}_{i}",
                             "reason": f"Start date ({p.start}) is after end date ({p.end})."
                         })
                     
-                    # Rule: min(t_i) <= start <= end <= max(t_i)
                     if s_dt < min_t or e_dt > max_t:
                         period_errors.append({
                             "period": f"{name}_{i}",
                             "reason": f"Period is out of bounds for the current transaction set ({min_t} to {max_t})."
                         })
                         
-                    # Rule: K-periods cannot span multiple years
                     if name == "k" and s_dt.year != e_dt.year:
                         period_errors.append({
                             "period": f"k_{i}",
@@ -245,7 +232,6 @@ async def api_temporal_validate(data: TemporalValidationRequest):
 def internal_build_transactions(raw_txns: List[RawTransaction]) -> List[Transaction]:
     processed = []
     for idx, exp in enumerate(raw_txns):
-        # Handle the -10 edge case from your image
         if exp.amount <= 0:
             status = "invalid_amount"
             ceiling, remanent = 0, 0
@@ -260,13 +246,12 @@ def internal_build_transactions(raw_txns: List[RawTransaction]) -> List[Transact
             amount=exp.amount,
             ceiling=ceiling,
             remanent=remanent,
-            status=status # <-- Passes the status down the pipeline
+            status=status 
         ))
     return processed
 
 async def run_orchestrator(data: ChallengeRequest, mode: str):
     global engine_calls
-    # Use existing logic as internal methods
     expenses = [Expense(date=t.date, amount=t.amount) for t in data.transactions]
     built = await api_build_transactions(expenses)
     
@@ -279,7 +264,6 @@ async def run_orchestrator(data: ChallengeRequest, mode: str):
     )
     filtered = await api_temporal_validate(temp_req)
 
-    # Payload for C++
     engine_payload = {
         "mode": mode,
         "age": data.age,
@@ -320,14 +304,10 @@ async def performance_report():
     v) Performance Report
     Outputs system-wide resource utilization metrics.
     """
-    # 1. Get memory metrics (Current and Peak)
     current, peak = tracemalloc.get_traced_memory()
     
-    # 2. Calculate total uptime since start_time
     uptime = time.time() - start_time
     
-    # 3. Count active Python threads
-    # This shows how many concurrent requests are being managed
     active_threads = threading.active_count()
 
     return {
@@ -345,8 +325,8 @@ async def performance_report():
             }
         },
         "algorithmEfficiency": {
-            "temporalComplexity": "O((N+Q+P) log (N+Q+P))", # Sweep-line complexity
-            "spatialComplexity": "O(N+Q+P+K)", # Memory complexity
-            "batchCapacity": "1,000,000 transactions" # Based on constraints
+            "temporalComplexity": "O((N+Q+P) log (N+Q+P))", 
+            "spatialComplexity": "O(N+Q+P+K)", 
+            "batchCapacity": "1,000,000 transactions" 
         }
     }

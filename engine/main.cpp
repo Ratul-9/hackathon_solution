@@ -5,14 +5,12 @@
 #include <set>
 #include <cmath>
 #include <iomanip>
-#include "nlohmann/json.hpp" // Required for JSON parsing
+#include "nlohmann/json.hpp" 
 #include <chrono>
 
-// USE ORDERED JSON TO PRESERVE EXACT KEY SEQUENCE
 using json = nlohmann::ordered_json;
 using namespace std;
 
-// Quick string to integer epoch conversion
 long long parse_date(const string& s) {
     long long res = 0;
     for (char c : s) {
@@ -44,7 +42,6 @@ struct Transaction {
 
 vector<long long> q_fixed_amounts;
 
-// --- TAX & FINANCIAL LOGIC ---
 double calculate_tax(double income) {
     double tax = 0;
     if (income > 1500000) { tax += (income - 1500000) * 0.30; income = 1500000; }
@@ -88,10 +85,8 @@ int main() {
     int age = input_data["age"];
     double monthly_wage = input_data["wage"];
     
-    // BUG FIX 1: Convert percentage to decimal
     double inflation = (double)input_data["inflation"] / 100.0;
     
-    // BUG FIX 2: Convert monthly wage to yearly for tax calculation
     double yearly_wage = monthly_wage * 12.0;
 
     vector<Transaction> txns; 
@@ -168,7 +163,6 @@ int main() {
     auto duration = chrono::duration_cast<chrono::microseconds>(end_perf - start_perf);
 
     json response;
-    // Exactly matches the image order
     response["totalTransactionAmount"] = round(global_total_amount * 10.0) / 10.0;
     response["totalCeiling"] = round(global_total_ceiling * 10.0) / 10.0;
     response["savingsByDates"] = json::array();
