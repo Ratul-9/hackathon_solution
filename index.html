@@ -5,74 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlackRock Auto-Save Engine | Ratul Mukherjee</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
                     colors: {
-                        brBlack: '#000000',
-                        brGray: '#151412',
-                        brLightGray: '#FAFAFA',
+                        brBlack: '#0a0a0a',
+                        brPanel: '#121212',
+                        brBorder: '#262626',
                         brBlue: '#005eb8',
-                        brRed: '#E1271B'
+                        brCyan: '#00b5e2',
+                        brGreen: '#10b981',
+                        brRed: '#ef4444'
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Custom scrollbar for JSON textareas */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #151412; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        body {
+            background-color: #050505;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        /* Sleek Developer Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #005eb8; }
+        
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
     </style>
 </head>
-<body class="bg-brBlack text-brLightGray font-sans antialiased min-h-screen flex flex-col">
+<body class="text-gray-300 font-sans antialiased min-h-screen flex flex-col selection:bg-brBlue selection:text-white">
 
-    <nav class="border-b border-neutral-800 bg-brBlack px-6 py-4 flex items-center justify-between sticky top-0 z-10">
-        <div class="flex items-center space-x-3">
-            <svg class="w-8 h-8 text-brLightGray" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M2 22h20V2H2v20zm2-18h16v16H4V4z"/><rect x="6" y="10" width="12" height="6"/>
-            </svg>
-            <span class="text-xl font-bold tracking-tight">BlackRock <span class="font-light text-neutral-400">Auto-Save Engine</span></span>
+    <nav class="border-b border-brBorder glass-panel px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+        <div class="flex items-center space-x-4">
+            <div class="h-8 w-8 rounded bg-brBlue flex items-center justify-center shadow-[0_0_15px_rgba(0,94,184,0.6)]">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+            </div>
+            <span class="text-xl font-bold tracking-tight text-white">BlackRock <span class="font-light text-gray-400">Sweep-Line Engine</span></span>
         </div>
-        <div class="text-sm text-neutral-500 hidden sm:block">Participant: Ratul Mukherjee</div>
+        <div class="flex items-center space-x-4 text-sm">
+            <span class="flex items-center text-brGreen bg-brGreen/10 px-3 py-1 rounded-full border border-brGreen/20">
+                <span class="w-2 h-2 rounded-full bg-brGreen mr-2 animate-pulse"></span> C++ Backend Active
+            </span>
+            <div class="text-gray-500 hidden sm:block border-l border-brBorder pl-4">Ratul Mukherjee</div>
+        </div>
     </nav>
 
-    <main class="flex-grow p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <main class="flex-grow p-4 lg:p-8 grid grid-cols-1 xl:grid-cols-12 gap-8 max-w-[1600px] mx-auto w-full">
         
-        <div class="lg:col-span-7 space-y-6">
-            <div class="bg-brGray border border-neutral-800 rounded-lg p-5 shadow-2xl">
-                <h2 class="text-lg font-semibold border-b border-neutral-800 pb-2 mb-4">Simulation Parameters</h2>
+        <div class="xl:col-span-7 space-y-6">
+            <div class="glass-panel border border-brBorder rounded-xl p-6 shadow-2xl transition-all duration-300 hover:border-brBlue/30">
+                <div class="flex justify-between items-center border-b border-brBorder pb-4 mb-6">
+                    <h2 class="text-lg font-semibold text-white flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-brBlue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        Algorithm Parameters
+                    </h2>
+                    
+                    <div class="flex bg-[#0a0a0a] border border-brBorder rounded-lg p-1">
+                        <button id="btnNPS" onclick="setMode('nps')" class="px-4 py-1 text-xs font-semibold rounded bg-brBlue text-white shadow transition-colors">NPS (7.11%)</button>
+                        <button id="btnIndex" onclick="setMode('index')" class="px-4 py-1 text-xs font-semibold rounded text-gray-400 hover:text-white transition-colors">Index (14.49%)</button>
+                    </div>
+                </div>
                 
-                <div class="mb-5">
-                    <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Backend API URL</label>
-                    <input id="apiUrl" type="text" value="http://localhost:5477/blackrock/challenge/v1/returns:nps" 
-                        class="w-full bg-black border border-neutral-700 rounded p-2 text-sm focus:outline-none focus:border-brBlue transition-colors">
-                </div>
-
-                <div class="grid grid-cols-3 gap-4 mb-5">
-                    <div>
-                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Age</label>
-                        <input id="age" type="number" value="20" class="w-full bg-black border border-neutral-700 rounded p-2 text-sm focus:outline-none focus:border-brBlue">
+                <div class="grid grid-cols-3 gap-5 mb-6">
+                    <div class="group">
+                        <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2 group-focus-within:text-brBlue transition-colors">User Age</label>
+                        <input id="age" type="number" value="20" class="w-full bg-[#0a0a0a] border border-brBorder rounded-lg p-2.5 text-sm focus:outline-none focus:border-brBlue focus:ring-1 focus:ring-brBlue transition-all text-white font-mono">
                     </div>
-                    <div>
-                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Wage (₹)</label>
-                        <input id="wage" type="number" value="50000" class="w-full bg-black border border-neutral-700 rounded p-2 text-sm focus:outline-none focus:border-brBlue">
+                    <div class="group">
+                        <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2 group-focus-within:text-brBlue transition-colors">Annual Wage (₹)</label>
+                        <input id="wage" type="number" value="50000" class="w-full bg-[#0a0a0a] border border-brBorder rounded-lg p-2.5 text-sm focus:outline-none focus:border-brBlue focus:ring-1 focus:ring-brBlue transition-all text-white font-mono">
                     </div>
-                    <div>
-                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Inflation (%)</label>
-                        <input id="inflation" type="number" value="5.5" step="0.1" class="w-full bg-black border border-neutral-700 rounded p-2 text-sm focus:outline-none focus:border-brBlue">
+                    <div class="group">
+                        <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2 group-focus-within:text-brBlue transition-colors">Inflation (%)</label>
+                        <input id="inflation" type="number" value="5.5" step="0.1" class="w-full bg-[#0a0a0a] border border-brBorder rounded-lg p-2.5 text-sm focus:outline-none focus:border-brBlue focus:ring-1 focus:ring-brBlue transition-all text-white font-mono">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mb-5">
-                    <div>
-                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Q-Periods (JSON Array)</label>
-                        <textarea id="q_periods" rows="4" class="w-full bg-black border border-neutral-700 rounded p-2 text-xs font-mono focus:outline-none focus:border-brBlue whitespace-pre">[
+                <div class="flex justify-between items-end mb-2">
+                    <label class="block text-xs text-gray-400 uppercase tracking-wider">Temporal Rules (JSON)</label>
+                    <button onclick="formatJSON()" class="text-xs text-brBlue hover:text-brCyan transition-colors flex items-center">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg> Format Code
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-5 mb-6">
+                    <div class="relative group">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
+                        <textarea id="q_periods" rows="5" class="relative w-full bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-blue-300 whitespace-pre leading-relaxed">[
   {
     "start": "2023-01-01 00:00:00",
     "end": "2023-12-31 23:59:59",
@@ -80,48 +117,66 @@
   }
 ]</textarea>
                     </div>
-                    <div>
-                        <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">P-Periods (JSON Array)</label>
-                        <textarea id="p_periods" rows="4" class="w-full bg-black border border-neutral-700 rounded p-2 text-xs font-mono focus:outline-none focus:border-brBlue whitespace-pre">[]</textarea>
+                    <div class="relative group">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
+                        <textarea id="p_periods" rows="5" class="relative w-full bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-blue-300 whitespace-pre leading-relaxed">[]</textarea>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Transactions (JSON Array)</label>
-                    <textarea id="transactions" rows="6" class="w-full bg-black border border-neutral-700 rounded p-2 text-xs font-mono focus:outline-none focus:border-brBlue whitespace-pre">[
+                <div class="relative group">
+                    <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2">Transaction Feed (JSON Array)</label>
+                    <div class="absolute -inset-0.5 top-6 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
+                    <textarea id="transactions" rows="6" class="relative w-full bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-green-300 whitespace-pre leading-relaxed">[
   { "date": "2023-02-28 15:49:20", "amount": 375 },
   { "date": "2023-03-05 10:15:00", "amount": 1020 },
   { "date": "2023-07-21 18:30:00", "amount": 499 }
 ]</textarea>
                 </div>
-                
-                </div>
+            </div>
         </div>
 
-        <div class="lg:col-span-5 flex flex-col space-y-6">
+        <div class="xl:col-span-5 flex flex-col space-y-6">
             
-            <div class="bg-brGray border border-neutral-800 rounded-lg p-5 shadow-2xl flex flex-col justify-center items-center text-center">
-                <p class="text-sm text-neutral-400 mb-4">Execute the C++ Sweep-line algorithm via the FastAPI orchestrator.</p>
-                <button id="runBtn" onclick="executeEngine()" class="w-full bg-brBlue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded transition-all duration-200 shadow-[0_0_15px_rgba(0,94,184,0.4)]">
-                    Execute Engine (NPS)
+            <div class="glass-panel border border-brBorder rounded-xl p-6 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brBlue opacity-10 rounded-full blur-3xl"></div>
+                
+                <button id="runBtn" onclick="executeEngine()" class="relative w-full bg-white text-brBlack hover:bg-gray-200 font-bold py-3.5 px-6 rounded-lg transition-all duration-200 shadow-[0_0_20px_rgba(255,255,255,0.15)] flex justify-center items-center">
+                    <span id="btnText">Execute High-Freq Sweep</span>
+                    <svg id="btnSpinner" class="animate-spin ml-2 h-5 w-5 text-brBlack hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                 </button>
+
+                <div class="grid grid-cols-2 gap-4 mt-5 text-center">
+                    <div class="bg-[#0a0a0a] rounded border border-brBorder py-2">
+                        <div class="text-[10px] text-gray-500 uppercase">Algorithm</div>
+                        <div class="text-sm font-mono text-white">O((N+Q) log(N+Q))</div>
+                    </div>
+                    <div class="bg-[#0a0a0a] rounded border border-brBorder py-2">
+                        <div class="text-[10px] text-gray-500 uppercase">Roundtrip Latency</div>
+                        <div id="latency" class="text-sm font-mono text-brCyan">-- ms</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="bg-brGray border border-neutral-800 rounded-lg p-5 shadow-2xl flex-grow flex flex-col">
-                <h2 class="text-lg font-semibold border-b border-neutral-800 pb-2 mb-4 flex justify-between items-center">
-                    <span>Forecasted Return</span>
-                    <span id="statusIndicator" class="h-3 w-3 rounded-full bg-neutral-600"></span>
+            <div class="glass-panel border border-brBorder rounded-xl p-6 shadow-2xl flex-grow flex flex-col">
+                <h2 class="text-lg font-semibold border-b border-brBorder pb-4 mb-6 flex justify-between items-center text-white">
+                    <span class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-brGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        Projected Value
+                    </span>
                 </h2>
                 
-                <div class="text-center py-6">
-                    <p class="text-xs text-neutral-500 uppercase tracking-widest mb-2">Final Portfolio Value</p>
-                    <h1 id="finalValue" class="text-5xl font-bold text-white tracking-tight">₹ 0.00</h1>
+                <div class="text-center py-4 mb-6 relative">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
+                        <span class="text-9xl font-bold">₹</span>
+                    </div>
+                    <p class="text-xs text-brCyan uppercase tracking-[0.2em] mb-3">Inflation-Adjusted Return</p>
+                    <h1 id="finalValue" class="text-5xl lg:text-6xl font-bold text-white tracking-tighter">₹ 0.00</h1>
                 </div>
 
-                <div class="mt-4 flex-grow flex flex-col">
-                    <label class="block text-xs text-neutral-400 uppercase tracking-wider mb-1">Engine Output (JSON)</label>
-                    <div class="bg-black border border-neutral-700 rounded p-3 flex-grow relative overflow-hidden">
-                        <pre id="jsonOutput" class="text-[11px] text-green-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-tight">Awaiting execution...</pre>
+                <div class="flex-grow flex flex-col">
+                    <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Stdout / JSON Payload</label>
+                    <div class="bg-[#050505] border border-brBorder rounded-lg p-4 flex-grow relative overflow-hidden group hover:border-brBorder transition-colors">
+                        <pre id="jsonOutput" class="text-[11px] text-gray-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-relaxed">System ready. Waiting for execution command...</pre>
                     </div>
                 </div>
             </div>
@@ -129,19 +184,52 @@
     </main>
 
     <script>
+        // Default Endpoint Configuration
+        let currentMode = 'nps';
+        const baseUrl = "http://localhost:5477/blackrock/challenge/v1/returns:";
+
+        function setMode(mode) {
+            currentMode = mode;
+            const btnNPS = document.getElementById('btnNPS');
+            const btnIndex = document.getElementById('btnIndex');
+            
+            if (mode === 'nps') {
+                btnNPS.className = "px-4 py-1 text-xs font-semibold rounded bg-brBlue text-white shadow transition-colors";
+                btnIndex.className = "px-4 py-1 text-xs font-semibold rounded text-gray-400 hover:text-white transition-colors";
+            } else {
+                btnIndex.className = "px-4 py-1 text-xs font-semibold rounded bg-brBlue text-white shadow transition-colors";
+                btnNPS.className = "px-4 py-1 text-xs font-semibold rounded text-gray-400 hover:text-white transition-colors";
+            }
+        }
+
+        function formatJSON() {
+            const fields = ['q_periods', 'p_periods', 'transactions'];
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                try {
+                    const parsed = JSON.parse(el.value);
+                    el.value = JSON.stringify(parsed, null, 2);
+                } catch (e) {
+                    console.warn(`Could not format ${id} - invalid JSON`);
+                }
+            });
+        }
+
         async function executeEngine() {
             const btn = document.getElementById('runBtn');
+            const btnText = document.getElementById('btnText');
+            const spinner = document.getElementById('btnSpinner');
             const output = document.getElementById('jsonOutput');
             const finalValueDisplay = document.getElementById('finalValue');
-            const statusIndicator = document.getElementById('statusIndicator');
+            const latencyDisplay = document.getElementById('latency');
             
             // UI Loading State
-            btn.innerText = "Processing...";
             btn.disabled = true;
-            btn.classList.add('opacity-50');
-            statusIndicator.className = "h-3 w-3 rounded-full bg-yellow-500 animate-pulse";
-            output.innerText = "Connecting to backend...";
-            output.className = "text-[11px] text-yellow-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-tight";
+            btnText.innerText = "Processing Pipeline...";
+            spinner.classList.remove('hidden');
+            output.innerText = `[INFO] Connecting to C++ Orchestrator at port 5477...\n[INFO] Mode: ${currentMode.toUpperCase()}`;
+            output.className = "text-[11px] text-gray-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-relaxed";
+            latencyDisplay.innerText = "computing...";
 
             try {
                 // Parse Inputs
@@ -151,27 +239,38 @@
                     inflation: parseFloat(document.getElementById('inflation').value),
                     q: JSON.parse(document.getElementById('q_periods').value),
                     p: JSON.parse(document.getElementById('p_periods').value),
-                    k: [], // Left empty for simplicity in this demo
+                    k: [],
                     transactions: JSON.parse(document.getElementById('transactions').value)
                 };
 
-                const apiUrl = document.getElementById('apiUrl').value;
+                const targetUrl = baseUrl + currentMode;
+
+                // Start Timer
+                const startTime = performance.now();
 
                 // Call API
-                const response = await fetch(apiUrl, {
+                const response = await fetch(targetUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
                 const data = await response.json();
+                
+                // End Timer
+                const endTime = performance.now();
+                const latency = (endTime - startTime).toFixed(1);
+                latencyDisplay.innerText = `${latency} ms`;
 
                 if (response.ok) {
                     // Success State
-                    statusIndicator.className = "h-3 w-3 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]";
                     finalValueDisplay.innerText = `₹ ${data.finalValue ? data.finalValue.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '0.00'}`;
-                    output.className = "text-[11px] text-green-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-tight";
+                    output.className = "text-[11px] text-brGreen font-mono h-full overflow-y-auto whitespace-pre-wrap leading-relaxed";
                     output.innerText = JSON.stringify(data, null, 2);
+                    
+                    // Add subtle green flash
+                    finalValueDisplay.classList.add('text-brGreen');
+                    setTimeout(() => finalValueDisplay.classList.remove('text-brGreen'), 500);
                 } else {
                     // Handled Backend Error
                     throw new Error(JSON.stringify(data, null, 2));
@@ -179,20 +278,23 @@
 
             } catch (error) {
                 // Failure State
-                statusIndicator.className = "h-3 w-3 rounded-full bg-brRed shadow-[0_0_8px_#E1271B]";
-                output.className = "text-[11px] text-brRed font-mono h-full overflow-y-auto whitespace-pre-wrap leading-tight";
+                latencyDisplay.innerText = "FAILED";
+                latencyDisplay.classList.add('text-brRed');
+                output.className = "text-[11px] text-brRed font-mono h-full overflow-y-auto whitespace-pre-wrap leading-relaxed";
+                finalValueDisplay.innerText = "ERR";
                 
                 if(error instanceof SyntaxError) {
-                    output.innerText = "Error: Invalid JSON format in one of your text areas. Please check for missing quotes or commas.";
+                    output.innerText = "[ERROR] JSON Parse Exception.\nCheck your inputs for trailing commas or missing quotes.";
                 } else if (error.message === "Failed to fetch") {
-                    output.innerText = "Network Error: Could not connect to the engine.\n\nEnsure your Docker container is running and mapped to port 5477:\n`docker run -p 5477:5477 blk-hacking-ind-ratul-mukherjee`\n\nAlso, ensure your FastAPI backend has CORS enabled if hosting this file separately.";
+                    output.innerText = "[FATAL] Connection Refused.\n\nEnsure Docker is running: docker run -p 5477:5477 blk-hacking-ind-ratul-mukherjee\nEnsure CORS is enabled in FastAPI.";
                 } else {
-                    output.innerText = `API Error:\n${error.message}`;
+                    output.innerText = `[BACKEND ERROR]\n${error.message}`;
                 }
             } finally {
-                btn.innerText = "Execute Engine (NPS)";
+                btnText.innerText = "Execute High-Freq Sweep";
+                spinner.classList.add('hidden');
                 btn.disabled = false;
-                btn.classList.remove('opacity-50');
+                setTimeout(() => latencyDisplay.classList.remove('text-brRed'), 2000);
             }
         }
     </script>
