@@ -13,10 +13,14 @@ import threading
 
 
 # --- CONFIGURATION ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Ensure your engine is compiled and located here
-ROOT_DIR = os.path.dirname(BASE_DIR)
-ENGINE_PATH = os.path.join("build", "Debug", "engine.exe")# ---------------------------------------------------------
+if os.path.exists("/app/build/engine"):
+    # Docker Path
+    ENGINE_PATH = "/app/build/engine"
+else:
+    # Local Windows Path
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.dirname(BASE_DIR)
+    ENGINE_PATH = os.path.join(ROOT_DIR, "build", "Debug", "engine.exe")# ---------------------------------------------------------
 # 1. Pydantic Models (Validation Schemas)
 # ---------------------------------------------------------
 
