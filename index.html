@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlackRock Auto-Save Engine | Ratul Mukherjee</title>
+    <title>BlackRock Auto-Save Engine | Tester</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -36,17 +37,12 @@
             linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 30px 30px;
         }
-        /* Sleek Developer Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #005eb8; }
-        
-        .glass-panel {
-            background: rgba(18, 18, 18, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
+        .glass-panel { background: rgba(18, 18, 18, 0.85); backdrop-filter: blur(12px); }
+        .fade-transition { transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, padding 0.3s ease; overflow: hidden; }
     </style>
 </head>
 <body class="text-gray-300 font-sans antialiased min-h-screen flex flex-col selection:bg-brBlue selection:text-white">
@@ -62,9 +58,8 @@
         </div>
         <div class="flex items-center space-x-4 text-sm">
             <span class="flex items-center text-brGreen bg-brGreen/10 px-3 py-1 rounded-full border border-brGreen/20">
-                <span class="w-2 h-2 rounded-full bg-brGreen mr-2 animate-pulse"></span> C++ Backend Active
+                <span class="w-2 h-2 rounded-full bg-brGreen mr-2 animate-pulse"></span> FastAPI Backend Active
             </span>
-            <div class="text-gray-500 hidden sm:block border-l border-brBorder pl-4">Ratul Mukherjee</div>
         </div>
     </nav>
 
@@ -72,44 +67,56 @@
         
         <div class="xl:col-span-7 space-y-6">
             <div class="glass-panel border border-brBorder rounded-xl p-6 shadow-2xl transition-all duration-300 hover:border-brBlue/30">
-                <div class="flex justify-between items-center border-b border-brBorder pb-4 mb-6">
+                
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-brBorder pb-4 mb-6 gap-4">
                     <h2 class="text-lg font-semibold text-white flex items-center">
                         <svg class="w-5 h-5 mr-2 text-brBlue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         Algorithm Parameters
                     </h2>
                     
-                    <div class="flex bg-[#0a0a0a] border border-brBorder rounded-lg p-1">
-                        <button id="btnNPS" onclick="setMode('nps')" class="px-4 py-1 text-xs font-semibold rounded bg-brBlue text-white shadow transition-colors">NPS (7.11%)</button>
-                        <button id="btnIndex" onclick="setMode('index')" class="px-4 py-1 text-xs font-semibold rounded text-gray-400 hover:text-white transition-colors">Index (14.49%)</button>
+                    <div class="relative w-full sm:w-64">
+                        <select id="apiSelector" class="w-full appearance-none bg-[#0a0a0a] border border-brBorder rounded-lg p-2.5 pr-8 text-sm focus:outline-none focus:border-brBlue focus:ring-1 focus:ring-brBlue transition-all text-white font-mono cursor-pointer">
+                            <option value="NPS_Returns">1. NPS Returns (:nps)</option>
+                            <option value="Index_Returns">2. Index Returns (:index)</option>
+                            <option value="Transaction_Builder">3. Transaction Builder (:parse)</option>
+                            <option value="Transaction_Validator">4. Transaction Validator (:validator)</option>
+                            <option value="Transaction_Filter">5. Transaction Filter (:filter)</option>
+                            <option value="Performance_Analyzer">6. Performance Analyzer (GET)</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-brBlue">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="grid grid-cols-3 gap-5 mb-6">
-                    <div class="group">
+
+                <div id="scalarInputs" class="fade-transition grid grid-cols-3 gap-5 mb-6 opacity-100 max-h-40">
+                    <div id="ageContainer" class="group fade-transition opacity-100">
                         <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2 group-focus-within:text-brBlue transition-colors">User Age</label>
                         <input id="age" type="number" value="20" class="w-full bg-[#0a0a0a] border border-brBorder rounded-lg p-2.5 text-sm focus:outline-none focus:border-brBlue focus:ring-1 focus:ring-brBlue transition-all text-white font-mono">
                     </div>
-                    <div class="group">
+                    <div id="wageContainer" class="group fade-transition opacity-100">
                         <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2 group-focus-within:text-brBlue transition-colors">Annual Wage (₹)</label>
                         <input id="wage" type="number" value="50000" class="w-full bg-[#0a0a0a] border border-brBorder rounded-lg p-2.5 text-sm focus:outline-none focus:border-brBlue focus:ring-1 focus:ring-brBlue transition-all text-white font-mono">
                     </div>
-                    <div class="group">
+                    <div id="inflationContainer" class="group fade-transition opacity-100">
                         <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2 group-focus-within:text-brBlue transition-colors">Inflation (%)</label>
                         <input id="inflation" type="number" value="5.5" step="0.1" class="w-full bg-[#0a0a0a] border border-brBorder rounded-lg p-2.5 text-sm focus:outline-none focus:border-brBlue focus:ring-1 focus:ring-brBlue transition-all text-white font-mono">
                     </div>
                 </div>
 
-                <div class="flex justify-between items-end mb-2">
-                    <label class="block text-xs text-gray-400 uppercase tracking-wider">Temporal Rules (JSON)</label>
+                <div id="jsonHeader" class="flex justify-between items-end mb-2 fade-transition opacity-100 max-h-10">
+                    <label class="block text-xs text-gray-400 uppercase tracking-wider">Temporal Rules & Data (JSON)</label>
                     <button onclick="formatJSON()" class="text-xs text-brBlue hover:text-brCyan transition-colors flex items-center">
-                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg> Format Code
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg> Format All JSON
                     </button>
                 </div>
 
-                <div class="grid grid-cols-2 gap-5 mb-6">
-                    <div class="relative group">
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
-                        <textarea id="q_periods" rows="5" class="relative w-full bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-blue-300 whitespace-pre leading-relaxed">[
+                <div id="jsonGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 fade-transition opacity-100 max-h-[600px]">
+                    
+                    <div id="qContainer" class="relative group flex flex-col fade-transition opacity-100">
+                        <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Q Periods</label>
+                        <div class="absolute -inset-0.5 top-5 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
+                        <textarea id="q_periods" rows="4" class="relative w-full flex-grow bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-blue-300 whitespace-pre leading-relaxed">[
   {
     "start": "2023-01-01 00:00:00",
     "end": "2023-12-31 23:59:59",
@@ -117,21 +124,36 @@
   }
 ]</textarea>
                     </div>
-                    <div class="relative group">
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
-                        <textarea id="p_periods" rows="5" class="relative w-full bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-blue-300 whitespace-pre leading-relaxed">[]</textarea>
-                    </div>
-                </div>
 
-                <div class="relative group">
-                    <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2">Transaction Feed (JSON Array)</label>
-                    <div class="absolute -inset-0.5 top-6 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
-                    <textarea id="transactions" rows="6" class="relative w-full bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-green-300 whitespace-pre leading-relaxed">[
+                    <div id="pContainer" class="relative group flex flex-col fade-transition opacity-100">
+                        <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">P Periods</label>
+                        <div class="absolute -inset-0.5 top-5 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
+                        <textarea id="p_periods" rows="4" class="relative w-full flex-grow bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-purple-300 whitespace-pre leading-relaxed">[]</textarea>
+                    </div>
+
+                    <div id="kContainer" class="relative group flex flex-col fade-transition opacity-100">
+                        <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">K Periods</label>
+                        <div class="absolute -inset-0.5 top-5 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
+                        <textarea id="k_periods" rows="4" class="relative w-full flex-grow bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-pink-300 whitespace-pre leading-relaxed">[]</textarea>
+                    </div>
+
+                    <div id="transactionsContainer" class="relative group flex flex-col fade-transition opacity-100">
+                        <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Transactions Array</label>
+                        <div class="absolute -inset-0.5 top-5 bg-gradient-to-r from-brBlue to-brCyan rounded-lg blur opacity-0 group-focus-within:opacity-20 transition duration-500"></div>
+                        <textarea id="transactions" rows="4" class="relative w-full flex-grow bg-[#050505] border border-brBorder rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-brBlue text-green-300 whitespace-pre leading-relaxed">[
   { "date": "2023-02-28 15:49:20", "amount": 375 },
   { "date": "2023-03-05 10:15:00", "amount": 1020 },
   { "date": "2023-07-21 18:30:00", "amount": 499 }
 ]</textarea>
+                    </div>
                 </div>
+
+                <div id="performanceMessage" class="hidden text-center py-12 text-gray-500 border border-dashed border-brBorder rounded-lg">
+                    <svg class="w-12 h-12 mx-auto text-brBlue mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <p>Performance Analyzer requires no input.</p>
+                    <p class="text-xs mt-2">Click Execute to fetch server metrics via GET request.</p>
+                </div>
+
             </div>
         </div>
 
@@ -141,14 +163,14 @@
                 <div class="absolute top-0 right-0 w-32 h-32 bg-brBlue opacity-10 rounded-full blur-3xl"></div>
                 
                 <button id="runBtn" onclick="executeEngine()" class="relative w-full bg-white text-brBlack hover:bg-gray-200 font-bold py-3.5 px-6 rounded-lg transition-all duration-200 shadow-[0_0_20px_rgba(255,255,255,0.15)] flex justify-center items-center">
-                    <span id="btnText">Execute High-Freq Sweep</span>
+                    <span id="btnText">Execute API Payload</span>
                     <svg id="btnSpinner" class="animate-spin ml-2 h-5 w-5 text-brBlack hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                 </button>
 
                 <div class="grid grid-cols-2 gap-4 mt-5 text-center">
                     <div class="bg-[#0a0a0a] rounded border border-brBorder py-2">
-                        <div class="text-[10px] text-gray-500 uppercase">Algorithm</div>
-                        <div class="text-sm font-mono text-white">O((N+Q) log(N+Q))</div>
+                        <div class="text-[10px] text-gray-500 uppercase">Selected Endpoint</div>
+                        <div id="activeEndpoint" class="text-sm font-mono text-white truncate px-2">/v1/returns:nps</div>
                     </div>
                     <div class="bg-[#0a0a0a] rounded border border-brBorder py-2">
                         <div class="text-[10px] text-gray-500 uppercase">Roundtrip Latency</div>
@@ -159,24 +181,28 @@
 
             <div class="glass-panel border border-brBorder rounded-xl p-6 shadow-2xl flex-grow flex flex-col">
                 <h2 class="text-lg font-semibold border-b border-brBorder pb-4 mb-6 flex justify-between items-center text-white">
-                    <span class="flex items-center">
+                    <span id="outputHeader" class="flex items-center">
                         <svg class="w-5 h-5 mr-2 text-brGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                         Projected Value
                     </span>
                 </h2>
                 
-                <div class="text-center py-4 mb-6 relative">
+                <div id="financialDisplay" class="text-center py-4 mb-6 relative block">
                     <div class="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
                         <span class="text-9xl font-bold">₹</span>
                     </div>
-                    <p class="text-xs text-brCyan uppercase tracking-[0.2em] mb-3">Inflation-Adjusted Return</p>
+                    <p class="text-xs text-brCyan uppercase tracking-[0.2em] mb-3">Calculated Return</p>
                     <h1 id="finalValue" class="text-5xl lg:text-6xl font-bold text-white tracking-tighter">₹ 0.00</h1>
+                </div>
+
+                <div id="chartContainer" class="hidden w-full h-48 mb-6 relative">
+                    <canvas id="performanceChart"></canvas>
                 </div>
 
                 <div class="flex-grow flex flex-col">
                     <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Stdout / JSON Payload</label>
-                    <div class="bg-[#050505] border border-brBorder rounded-lg p-4 flex-grow relative overflow-hidden group hover:border-brBorder transition-colors">
-                        <pre id="jsonOutput" class="text-[11px] text-gray-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-relaxed">System ready. Waiting for execution command...</pre>
+                    <div class="bg-[#050505] border border-brBorder rounded-lg p-4 flex-grow relative overflow-hidden group hover:border-brBorder transition-colors min-h-[150px]">
+                        <pre id="jsonOutput" class="text-[11px] text-gray-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-relaxed">System ready. Select an API and press execute...</pre>
                     </div>
                 </div>
             </div>
@@ -184,33 +210,142 @@
     </main>
 
     <script>
-        // Default Endpoint Configuration
-        let currentMode = 'nps';
-        const baseUrl = "http://localhost:5477/blackrock/challenge/v1/returns:";
+        // FIXED ENDPOINTS based on main.py definitions
+        const apiEndpoints = {
+            "NPS_Returns": "/blackrock/challenge/v1/returns:nps",
+            "Index_Returns": "/blackrock/challenge/v1/returns:index",
+            "Transaction_Builder": "/blackrock/challenge/v1/transactions:parse", 
+            "Transaction_Validator": "/blackrock/challenge/v1/transactions:validator", 
+            "Transaction_Filter": "/blackrock/challenge/v1/transactions:filter",  
+            "Performance_Analyzer": "/blackrock/challenge/v1/performance-report" // FIXED ROUTE
+        };
 
-        function setMode(mode) {
-            currentMode = mode;
-            const btnNPS = document.getElementById('btnNPS');
-            const btnIndex = document.getElementById('btnIndex');
+        const baseUrl = "http://localhost:5477";
+        let perfChart = null;
+
+        // --- UI TOGGLE LOGIC ---
+        document.getElementById('apiSelector').addEventListener('change', function(e) {
+            const val = e.target.value;
+            document.getElementById('activeEndpoint').innerText = apiEndpoints[val];
+
+            const ageC = document.getElementById('ageContainer');
+            const wageC = document.getElementById('wageContainer');
+            const infC = document.getElementById('inflationContainer');
+            const qC = document.getElementById('qContainer');
+            const pC = document.getElementById('pContainer');
+            const kC = document.getElementById('kContainer');
+            const tC = document.getElementById('transactionsContainer');
             
-            if (mode === 'nps') {
-                btnNPS.className = "px-4 py-1 text-xs font-semibold rounded bg-brBlue text-white shadow transition-colors";
-                btnIndex.className = "px-4 py-1 text-xs font-semibold rounded text-gray-400 hover:text-white transition-colors";
-            } else {
-                btnIndex.className = "px-4 py-1 text-xs font-semibold rounded bg-brBlue text-white shadow transition-colors";
-                btnNPS.className = "px-4 py-1 text-xs font-semibold rounded text-gray-400 hover:text-white transition-colors";
+            const scalarInputs = document.getElementById('scalarInputs');
+            const jsonGrid = document.getElementById('jsonGrid');
+            const jsonHeader = document.getElementById('jsonHeader');
+            const perfMsg = document.getElementById('performanceMessage');
+
+            // Reset Output Display
+            document.getElementById('financialDisplay').classList.remove('hidden');
+            document.getElementById('chartContainer').classList.add('hidden');
+            document.getElementById('outputHeader').innerHTML = `<svg class="w-5 h-5 mr-2 text-brGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg> Projected Value`;
+
+            // Display Logic based on endpoints
+            if (val === "Transaction_Builder") {
+                scalarInputs.classList.add('opacity-0', 'max-h-0', 'mb-0');
+                qC.classList.add('hidden'); pC.classList.add('hidden'); kC.classList.add('hidden');
+                tC.classList.remove('hidden');
+                jsonGrid.classList.remove('opacity-0', 'max-h-0', 'hidden');
+                jsonHeader.classList.remove('opacity-0', 'max-h-0', 'hidden');
+                perfMsg.classList.add('hidden');
+                jsonGrid.className = "grid grid-cols-1 gap-5 mb-6 fade-transition opacity-100 max-h-[600px]";
+            } 
+            else if (val === "Transaction_Validator") {
+                scalarInputs.classList.remove('opacity-0', 'max-h-0', 'mb-0');
+                ageC.classList.add('hidden'); infC.classList.add('hidden'); wageC.classList.remove('hidden');
+                qC.classList.add('hidden'); pC.classList.add('hidden'); kC.classList.add('hidden');
+                tC.classList.remove('hidden');
+                jsonGrid.classList.remove('opacity-0', 'max-h-0', 'hidden');
+                jsonHeader.classList.remove('opacity-0', 'max-h-0', 'hidden');
+                perfMsg.classList.add('hidden');
+                jsonGrid.className = "grid grid-cols-1 gap-5 mb-6 fade-transition opacity-100 max-h-[600px]";
             }
-        }
+            else if (val === "Transaction_Filter") {
+                scalarInputs.classList.remove('opacity-0', 'max-h-0', 'mb-0');
+                ageC.classList.add('hidden'); infC.classList.add('hidden'); wageC.classList.remove('hidden');
+                qC.classList.remove('hidden'); pC.classList.remove('hidden'); kC.classList.remove('hidden'); tC.classList.remove('hidden');
+                jsonGrid.classList.remove('opacity-0', 'max-h-0', 'hidden');
+                jsonHeader.classList.remove('opacity-0', 'max-h-0', 'hidden');
+                perfMsg.classList.add('hidden');
+                jsonGrid.className = "grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 fade-transition opacity-100 max-h-[600px]";
+            }
+            else if (val === "Performance_Analyzer") {
+                scalarInputs.classList.add('opacity-0', 'max-h-0', 'mb-0');
+                jsonGrid.classList.add('opacity-0', 'max-h-0', 'hidden');
+                jsonHeader.classList.add('opacity-0', 'max-h-0', 'hidden');
+                perfMsg.classList.remove('hidden');
+
+                document.getElementById('financialDisplay').classList.add('hidden');
+                document.getElementById('chartContainer').classList.remove('hidden');
+                document.getElementById('outputHeader').innerHTML = `<svg class="w-5 h-5 mr-2 text-brCyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg> Server Telemetry`;
+            }
+            else {
+                scalarInputs.classList.remove('opacity-0', 'max-h-0', 'mb-0');
+                ageC.classList.remove('hidden'); wageC.classList.remove('hidden'); infC.classList.remove('hidden');
+                qC.classList.remove('hidden'); pC.classList.remove('hidden'); kC.classList.remove('hidden'); tC.classList.remove('hidden');
+                jsonGrid.classList.remove('opacity-0', 'max-h-0', 'hidden');
+                jsonHeader.classList.remove('opacity-0', 'max-h-0', 'hidden');
+                perfMsg.classList.add('hidden');
+                jsonGrid.className = "grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 fade-transition opacity-100 max-h-[600px]";
+            }
+        });
 
         function formatJSON() {
-            const fields = ['q_periods', 'p_periods', 'transactions'];
+            const fields = ['q_periods', 'p_periods', 'k_periods', 'transactions'];
             fields.forEach(id => {
                 const el = document.getElementById(id);
-                try {
-                    const parsed = JSON.parse(el.value);
-                    el.value = JSON.stringify(parsed, null, 2);
-                } catch (e) {
-                    console.warn(`Could not format ${id} - invalid JSON`);
+                if(!el.parentElement.classList.contains('hidden')){
+                    try {
+                        const parsed = JSON.parse(el.value);
+                        el.value = JSON.stringify(parsed, null, 2);
+                    } catch (e) {
+                        console.warn(`Could not format ${id} - invalid JSON`);
+                    }
+                }
+            });
+        }
+
+        // REAL DATA DRIVEN CHART
+        function renderChart(data) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            if(perfChart) { perfChart.destroy(); }
+            
+            // Plucking real data from the /performance-report endpoint
+            let labels = ['Uptime (s)', 'Engine Calls', 'Current Mem (MB)', 'Peak Mem (MB)'];
+            let values = [
+                data.metrics.uptimeSeconds, 
+                data.metrics.totalEngineCalls, 
+                data.metrics.memoryUsage.currentMB, 
+                data.metrics.memoryUsage.peakMB
+            ];
+
+            perfChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Metrics',
+                        data: values,
+                        backgroundColor: 'rgba(0, 181, 226, 0.5)',
+                        borderColor: '#00b5e2',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#262626' }, ticks: { color: '#9ca3af' } },
+                        x: { grid: { display: false }, ticks: { color: '#9ca3af' } }
+                    }
                 }
             });
         }
@@ -223,75 +358,123 @@
             const finalValueDisplay = document.getElementById('finalValue');
             const latencyDisplay = document.getElementById('latency');
             
-            // UI Loading State
+            const selectedApiKey = document.getElementById('apiSelector').value;
+            const endpointPath = apiEndpoints[selectedApiKey];
+            const targetUrl = baseUrl + endpointPath;
+
             btn.disabled = true;
             btnText.innerText = "Processing Pipeline...";
             spinner.classList.remove('hidden');
-            output.innerText = `[INFO] Connecting to C++ Orchestrator at port 5477...\n[INFO] Mode: ${currentMode.toUpperCase()}`;
+            output.innerText = `[INFO] Sending payload to ${targetUrl}...`;
             output.className = "text-[11px] text-gray-400 font-mono h-full overflow-y-auto whitespace-pre-wrap leading-relaxed";
             latencyDisplay.innerText = "computing...";
 
             try {
-                // Parse Inputs
-                const payload = {
-                    age: parseInt(document.getElementById('age').value),
-                    wage: parseFloat(document.getElementById('wage').value),
-                    inflation: parseFloat(document.getElementById('inflation').value),
-                    q: JSON.parse(document.getElementById('q_periods').value),
-                    p: JSON.parse(document.getElementById('p_periods').value),
-                    k: [],
-                    transactions: JSON.parse(document.getElementById('transactions').value)
+                let fetchOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
                 };
 
-                const targetUrl = baseUrl + currentMode;
+                // SCHEMA MAPPING LOGIC
+                if (selectedApiKey === "Performance_Analyzer") {
+                    fetchOptions.method = 'GET'; 
+                    delete fetchOptions.body;
+                } 
+                else if (selectedApiKey === "Transaction_Builder") {
+                    // EXPECTS: List[Expense] -> [{"date": "...", "amount": ...}]
+                    const txData = JSON.parse(document.getElementById('transactions').value);
+                    fetchOptions.body = JSON.stringify(txData);
+                }
+                else if (selectedApiKey === "Transaction_Validator") {
+                    // EXPECTS: WageData -> {wage: float, transactions: List[Transaction]}
+                    // Transaction model STRICTLY REQUIRES id and status. Auto-inject if missing.
+                    let rawTxns = JSON.parse(document.getElementById('transactions').value);
+                    let safeTxns = rawTxns.map((t, i) => ({ 
+                        id: t.id || `txn_${i}_auto`, 
+                        status: t.status || "valid", 
+                        ceiling: t.ceiling || 0,
+                        remanent: t.remanent || 0,
+                        ...t 
+                    }));
 
-                // Start Timer
+                    fetchOptions.body = JSON.stringify({
+                        wage: parseFloat(document.getElementById('wage').value),
+                        transactions: safeTxns
+                    });
+                }
+                else if (selectedApiKey === "Transaction_Filter") {
+                    // EXPECTS: TemporalValidationRequest -> { wage, q_periods, p_periods, k_periods, transactions }
+                    // Note: It uses *_periods, not just q, p, k
+                    let rawTxns = JSON.parse(document.getElementById('transactions').value);
+                    let safeTxns = rawTxns.map((t, i) => ({ 
+                        id: t.id || `txn_${i}_auto`, 
+                        status: t.status || "valid", 
+                        ceiling: t.ceiling || 0,
+                        remanent: t.remanent || 0,
+                        ...t 
+                    }));
+
+                    fetchOptions.body = JSON.stringify({
+                        wage: parseFloat(document.getElementById('wage').value),
+                        q_periods: JSON.parse(document.getElementById('q_periods').value),
+                        p_periods: JSON.parse(document.getElementById('p_periods').value),
+                        k_periods: JSON.parse(document.getElementById('k_periods').value),
+                        transactions: safeTxns
+                    });
+                }
+                else {
+                    // NPS and Index
+                    // EXPECTS: ChallengeRequest -> { age, wage, inflation, q, p, k, transactions }
+                    fetchOptions.body = JSON.stringify({
+                        age: parseInt(document.getElementById('age').value),
+                        wage: parseFloat(document.getElementById('wage').value),
+                        inflation: parseFloat(document.getElementById('inflation').value),
+                        q: JSON.parse(document.getElementById('q_periods').value),
+                        p: JSON.parse(document.getElementById('p_periods').value),
+                        k: JSON.parse(document.getElementById('k_periods').value),
+                        transactions: JSON.parse(document.getElementById('transactions').value)
+                    });
+                }
+
                 const startTime = performance.now();
-
-                // Call API
-                const response = await fetch(targetUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
+                const response = await fetch(targetUrl, fetchOptions);
                 const data = await response.json();
-                
-                // End Timer
                 const endTime = performance.now();
-                const latency = (endTime - startTime).toFixed(1);
-                latencyDisplay.innerText = `${latency} ms`;
+                
+                latencyDisplay.innerText = `${(endTime - startTime).toFixed(1)} ms`;
 
                 if (response.ok) {
-                    // Success State
-                    finalValueDisplay.innerText = `₹ ${data.finalValue ? data.finalValue.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '0.00'}`;
+                    if (selectedApiKey === "Performance_Analyzer") {
+                        renderChart(data); // Using the actual metric payload now!
+                    } else {
+                        // Display final value if it exists, otherwise 0.00
+                        const val = data.finalValue || data.total || 0;
+                        finalValueDisplay.innerText = `₹ ${val.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        finalValueDisplay.classList.add('text-brGreen');
+                        setTimeout(() => finalValueDisplay.classList.remove('text-brGreen'), 500);
+                    }
+                    
                     output.className = "text-[11px] text-brGreen font-mono h-full overflow-y-auto whitespace-pre-wrap leading-relaxed";
                     output.innerText = JSON.stringify(data, null, 2);
-                    
-                    // Add subtle green flash
-                    finalValueDisplay.classList.add('text-brGreen');
-                    setTimeout(() => finalValueDisplay.classList.remove('text-brGreen'), 500);
                 } else {
-                    // Handled Backend Error
                     throw new Error(JSON.stringify(data, null, 2));
                 }
 
             } catch (error) {
-                // Failure State
                 latencyDisplay.innerText = "FAILED";
                 latencyDisplay.classList.add('text-brRed');
                 output.className = "text-[11px] text-brRed font-mono h-full overflow-y-auto whitespace-pre-wrap leading-relaxed";
                 finalValueDisplay.innerText = "ERR";
                 
                 if(error instanceof SyntaxError) {
-                    output.innerText = "[ERROR] JSON Parse Exception.\nCheck your inputs for trailing commas or missing quotes.";
+                    output.innerText = "[ERROR] JSON Parse Exception.\nCheck your active inputs for trailing commas or missing quotes.";
                 } else if (error.message === "Failed to fetch") {
-                    output.innerText = "[FATAL] Connection Refused.\n\nEnsure Docker is running: docker run -p 5477:5477 blk-hacking-ind-ratul-mukherjee\nEnsure CORS is enabled in FastAPI.";
+                    output.innerText = `[FATAL] Connection Refused at ${targetUrl}.\n\nEnsure Docker server is running on port 5477.`;
                 } else {
                     output.innerText = `[BACKEND ERROR]\n${error.message}`;
                 }
             } finally {
-                btnText.innerText = "Execute High-Freq Sweep";
+                btnText.innerText = "Execute API Payload";
                 spinner.classList.add('hidden');
                 btn.disabled = false;
                 setTimeout(() => latencyDisplay.classList.remove('text-brRed'), 2000);
