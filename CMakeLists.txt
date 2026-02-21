@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(hackathon_root)
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(engine engine/main.cpp)
+
+include(FetchContent)
+
+FetchContent_Declare(
+    json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG v3.11.3
+)
+
+FetchContent_MakeAvailable(json)
+
+target_link_libraries(engine PRIVATE nlohmann_json::nlohmann_json)

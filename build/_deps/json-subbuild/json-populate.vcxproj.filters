@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\0fe1d42eb9a2018b11f4cd9b9a367974\json-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\0fe1d42eb9a2018b11f4cd9b9a367974\json-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\0fe1d42eb9a2018b11f4cd9b9a367974\json-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\0fe1d42eb9a2018b11f4cd9b9a367974\json-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\0fe1d42eb9a2018b11f4cd9b9a367974\json-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\0fe1d42eb9a2018b11f4cd9b9a367974\json-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\0fe1d42eb9a2018b11f4cd9b9a367974\json-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\0fe1d42eb9a2018b11f4cd9b9a367974\json-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\b4743376123656e5dcae02717365ad8b\json-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\3bf19637d8de6381079551d4dd765822\json-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\json-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{BD35E89E-171B-3F4C-B821-7AAAE40FB457}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

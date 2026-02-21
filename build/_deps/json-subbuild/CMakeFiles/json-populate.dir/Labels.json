@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/json-populate"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/3bf19637d8de6381079551d4dd765822/json-populate.rule"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/b4743376123656e5dcae02717365ad8b/json-populate-complete.rule"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/0fe1d42eb9a2018b11f4cd9b9a367974/json-populate-build.rule"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/0fe1d42eb9a2018b11f4cd9b9a367974/json-populate-configure.rule"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/0fe1d42eb9a2018b11f4cd9b9a367974/json-populate-download.rule"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/0fe1d42eb9a2018b11f4cd9b9a367974/json-populate-install.rule"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/0fe1d42eb9a2018b11f4cd9b9a367974/json-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/0fe1d42eb9a2018b11f4cd9b9a367974/json-populate-patch.rule"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/0fe1d42eb9a2018b11f4cd9b9a367974/json-populate-test.rule"
+		},
+		{
+			"file" : "D:/hackathon_root/build/_deps/json-subbuild/CMakeFiles/0fe1d42eb9a2018b11f4cd9b9a367974/json-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"json-populate"
+		],
+		"name" : "json-populate"
+	}
+}

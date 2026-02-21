@@ -1,0 +1,10 @@
+^D:\HACKATHON_ROOT\BUILD\CMAKEFILES\A534D7D78140679AC1E0C63D4D7CA9A1\GENERATE.STAMP.RULE
+setlocal
+C:\Users\mukhe\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -SD:/hackathon_root -BD:/hackathon_root/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/hackathon_root/build/hackathon_root.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

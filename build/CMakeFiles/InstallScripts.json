@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/hackathon_root/build/cmake_install.cmake",
+		"D:/hackathon_root/build/_deps/json-build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

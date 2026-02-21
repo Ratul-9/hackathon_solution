@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\hackathon_root\build\_deps\json-subbuild\CMakeFiles\3bf19637d8de6381079551d4dd765822\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{BD35E89E-171B-3F4C-B821-7AAAE40FB457}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
