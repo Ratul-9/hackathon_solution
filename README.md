@@ -28,7 +28,9 @@ root/
 ├── requirements.txt     # Python dependencies list
 └── README.md            # Project documentation
 
-⚙️ Local Setup & Installation
+---
+
+## ⚙️ Local Setup & Installation
 -----------------------------
 
 Follow these steps to set up the development environment on your local machine.

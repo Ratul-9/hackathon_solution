@@ -20,7 +20,8 @@ COPY engine/ ./engine/
 # Build the C++ Engine
 RUN mkdir build && cd build && \
     cmake .. && \
-    cmake --build . --config Release
+    cmake --build . --config Release \
+    g++ -O3 engine/main.cpp tests/engine_tests.cpp -o test_runner && ./test_runner
 
 # Copy Python requirements and source
 COPY requirements.txt .
